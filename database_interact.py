@@ -26,6 +26,13 @@ def mysqlconnect():
     # get the result and save the corresponding funFact contains the keyword
     results = cur.fetchall()
     column_data = [row[1] for row in results]
+
+    # create a new fun fact according to the fetched fun fact as one possible answer of chatbot
+    new_funfact = "New fun fact: " + column_data[0]
+
+    # insert the new_funfact to the database
+    cur.execute("INSERT INTO fact (factID, funFact, userID) VALUES (DEFAULT, %s, %s)", (new_funfact, UserID))
+    conn.commit()
     
     # To close the connection
     conn.close()
